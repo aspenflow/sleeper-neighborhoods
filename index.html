@@ -1,0 +1,2838 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <title>pydeck</title>
+        <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v1.13.0/mapbox-gl.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+    <script src='https://cdn.jsdelivr.net/npm/@deck.gl/jupyter-widget@~9.0.*/dist/index.js'></script>
+    <style>
+    body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#deck-container {
+  width: 100vw;
+  height: 100vh;
+}
+
+#deck-container canvas {
+  z-index: 1;
+  background: none;
+}
+    </style>
+  </head>
+  <body>
+    <div id="deck-container">
+    </div>
+  </body>
+  <script>
+    const container = document.getElementById('deck-container');
+    const jsonInput = {
+  "initialViewState": {
+    "latitude": 40.724256077516046,
+    "longitude": -73.94159333644342,
+    "pitch": 45,
+    "zoom": 11
+  },
+  "layers": [
+    {
+      "@@type": "ColumnLayer",
+      "autoHighlight": true,
+      "data": [
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Astoria",
+          "avg_age": 8.59,
+          "avg_age_std": 0.284,
+          "avg_noise": 51.604215369236854,
+          "avg_noise_std": -0.437,
+          "color": [
+            66,
+            61,
+            132
+          ],
+          "lat": 40.7720145,
+          "lon": -73.9302673,
+          "med_floors_std": -0.5,
+          "median_floors": 3.0,
+          "num_crimes": 6337,
+          "num_crimes_std": 0.645,
+          "overall_median": 1700.0,
+          "overall_median_std": -0.25,
+          "predicted_rent": 2491.67,
+          "recent_median": 2350.0,
+          "recent_median_std": 0.005,
+          "score": -1.92,
+          "score_norm": 0.18017210469702402,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            50,
+            225,
+            25
+          ],
+          "area": "Battery Park City",
+          "avg_age": 9.0,
+          "avg_age_std": 0.686,
+          "avg_noise": 57.658323930041625,
+          "avg_noise_std": 1.758,
+          "color": [
+            253,
+            231,
+            36
+          ],
+          "lat": 40.7110166,
+          "lon": -74.0169369,
+          "med_floors_std": 11.5,
+          "median_floors": 27.0,
+          "num_crimes": 637,
+          "num_crimes_std": -0.664,
+          "overall_median": 2995.0,
+          "overall_median_std": 1.367,
+          "predicted_rent": 4830.72,
+          "recent_median": 3882.0,
+          "recent_median_std": 1.08,
+          "score": 11.799,
+          "score_norm": 1.0,
+          "unexpectedly_low_rent": true
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Bay Ridge",
+          "avg_age": 9.09,
+          "avg_age_std": 0.775,
+          "avg_noise": 54.24924713106107,
+          "avg_noise_std": 0.522,
+          "color": [
+            48,
+            103,
+            141
+          ],
+          "lat": 40.6320062,
+          "lon": -74.0232101,
+          "med_floors_std": -0.5,
+          "median_floors": 3.0,
+          "num_crimes": 6138,
+          "num_crimes_std": 0.6,
+          "overall_median": 1475.0,
+          "overall_median_std": -0.531,
+          "predicted_rent": 2335.28,
+          "recent_median": 1700.0,
+          "recent_median_std": -0.451,
+          "score": 0.634,
+          "score_norm": 0.3327955061551333,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Bayside",
+          "avg_age": 7.9,
+          "avg_age_std": -0.392,
+          "avg_noise": 52.828430788902836,
+          "avg_noise_std": 0.007,
+          "color": [
+            67,
+            60,
+            132
+          ],
+          "lat": 40.7631203,
+          "lon": -73.7707449,
+          "med_floors_std": -1.0,
+          "median_floors": 2.0,
+          "num_crimes": 983,
+          "num_crimes_std": -0.584,
+          "overall_median": 1650.0,
+          "overall_median_std": -0.312,
+          "predicted_rent": 2202.1,
+          "recent_median": 1650.0,
+          "recent_median_std": -0.486,
+          "score": -1.969,
+          "score_norm": 0.17724393450460138,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            50,
+            225,
+            25
+          ],
+          "area": "Bedford Park",
+          "avg_age": 5.65,
+          "avg_age_std": -2.598,
+          "avg_noise": 54.22997166821911,
+          "avg_noise_std": 0.515,
+          "color": [
+            62,
+            72,
+            136
+          ],
+          "lat": 40.8700999,
+          "lon": -73.8856912,
+          "med_floors_std": 1.0,
+          "median_floors": 6.0,
+          "num_crimes": 2659,
+          "num_crimes_std": -0.199,
+          "overall_median": 1225.0,
+          "overall_median_std": -0.843,
+          "predicted_rent": 2249.25,
+          "recent_median": 1225.0,
+          "recent_median_std": -0.785,
+          "score": -1.282,
+          "score_norm": 0.21829807577387356,
+          "unexpectedly_low_rent": true
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Bedford-Stuyvesant",
+          "avg_age": 7.64,
+          "avg_age_std": -0.647,
+          "avg_noise": 51.68378691693776,
+          "avg_noise_std": -0.408,
+          "color": [
+            64,
+            67,
+            135
+          ],
+          "lat": 40.6834364,
+          "lon": -73.9412488,
+          "med_floors_std": 0.0,
+          "median_floors": 4.0,
+          "num_crimes": 9829,
+          "num_crimes_std": 1.447,
+          "overall_median": 1789.0,
+          "overall_median_std": -0.139,
+          "predicted_rent": 2465.41,
+          "recent_median": 2500.0,
+          "recent_median_std": 0.11,
+          "score": -1.595,
+          "score_norm": 0.19959364168758217,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Bensonhurst",
+          "avg_age": 8.29,
+          "avg_age_std": -0.01,
+          "avg_noise": 51.78415324336799,
+          "avg_noise_std": -0.372,
+          "color": [
+            59,
+            80,
+            138
+          ],
+          "lat": 40.6049772,
+          "lon": -73.9934061,
+          "med_floors_std": -0.5,
+          "median_floors": 3.0,
+          "num_crimes": 3528,
+          "num_crimes_std": 0.0,
+          "overall_median": 1765.0,
+          "overall_median_std": -0.169,
+          "predicted_rent": 2447.23,
+          "recent_median": 1765.0,
+          "recent_median_std": -0.406,
+          "score": -0.882,
+          "score_norm": 0.24220150591609899,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Boerum Hill",
+          "avg_age": 7.13,
+          "avg_age_std": -1.147,
+          "avg_noise": 52.69080260659562,
+          "avg_noise_std": -0.043,
+          "color": [
+            71,
+            44,
+            123
+          ],
+          "lat": 40.68562615,
+          "lon": -73.98417065807277,
+          "med_floors_std": 0.0,
+          "median_floors": 4.0,
+          "num_crimes": 2483,
+          "num_crimes_std": -0.24,
+          "overall_median": 2196.5,
+          "overall_median_std": 0.37,
+          "predicted_rent": 2339.82,
+          "recent_median": 2800.0,
+          "recent_median_std": 0.321,
+          "score": -2.804,
+          "score_norm": 0.12734552408270586,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Borough Park",
+          "avg_age": 8.17,
+          "avg_age_std": -0.127,
+          "avg_noise": 51.39525635516057,
+          "avg_noise_std": -0.513,
+          "color": [
+            62,
+            72,
+            136
+          ],
+          "lat": 40.633993,
+          "lon": -73.9968059,
+          "med_floors_std": -0.5,
+          "median_floors": 3.0,
+          "num_crimes": 2732,
+          "num_crimes_std": -0.183,
+          "overall_median": 1875.0,
+          "overall_median_std": -0.031,
+          "predicted_rent": 2467.01,
+          "recent_median": 1875.0,
+          "recent_median_std": -0.328,
+          "score": -1.323,
+          "score_norm": 0.21584797418429544,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Briarwood",
+          "avg_age": 8.81,
+          "avg_age_std": 0.5,
+          "avg_noise": 54.886501297291375,
+          "avg_noise_std": 0.753,
+          "color": [
+            59,
+            81,
+            138
+          ],
+          "lat": 40.7092563,
+          "lon": -73.8201394,
+          "med_floors_std": -1.0,
+          "median_floors": 2.0,
+          "num_crimes": 1575,
+          "num_crimes_std": -0.448,
+          "overall_median": 1480.0,
+          "overall_median_std": -0.524,
+          "predicted_rent": 2145.46,
+          "recent_median": 1650.0,
+          "recent_median_std": -0.486,
+          "score": -0.769,
+          "score_norm": 0.24895422493127764,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Brighton Beach",
+          "avg_age": 8.88,
+          "avg_age_std": 0.569,
+          "avg_noise": 54.15470835552962,
+          "avg_noise_std": 0.487,
+          "color": [
+            53,
+            93,
+            140
+          ],
+          "lat": 40.57964365,
+          "lon": -73.96111022551311,
+          "med_floors_std": -0.5,
+          "median_floors": 3.0,
+          "num_crimes": 1779,
+          "num_crimes_std": -0.401,
+          "overall_median": 1530.0,
+          "overall_median_std": -0.462,
+          "predicted_rent": 2330.85,
+          "recent_median": 1573.0,
+          "recent_median_std": -0.54,
+          "score": 0.014,
+          "score_norm": 0.2957451894346839,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Brooklyn Heights",
+          "avg_age": 8.1,
+          "avg_age_std": -0.196,
+          "avg_noise": 55.724915954681904,
+          "avg_noise_std": 1.057,
+          "color": [
+            64,
+            67,
+            135
+          ],
+          "lat": 40.696084850000005,
+          "lon": -73.99502968353846,
+          "med_floors_std": 0.5,
+          "median_floors": 5.0,
+          "num_crimes": 484,
+          "num_crimes_std": -0.699,
+          "overall_median": 2188.0,
+          "overall_median_std": 0.36,
+          "predicted_rent": 2333.51,
+          "recent_median": 3150.0,
+          "recent_median_std": 0.566,
+          "score": -1.536,
+          "score_norm": 0.2031193976335604,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            50,
+            225,
+            25
+          ],
+          "area": "Brownsville",
+          "avg_age": 7.76,
+          "avg_age_std": -0.529,
+          "avg_noise": 52.02645630394156,
+          "avg_noise_std": -0.284,
+          "color": [
+            40,
+            122,
+            142
+          ],
+          "lat": 40.665306,
+          "lon": -73.9124755,
+          "med_floors_std": 0.0,
+          "median_floors": 4.0,
+          "num_crimes": 15264,
+          "num_crimes_std": 2.696,
+          "overall_median": 1500.0,
+          "overall_median_std": -0.499,
+          "predicted_rent": 2433.68,
+          "recent_median": 1500.0,
+          "recent_median_std": -0.592,
+          "score": 1.883,
+          "score_norm": 0.4074339667742321,
+          "unexpectedly_low_rent": true
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Bushwick",
+          "avg_age": 7.74,
+          "avg_age_std": -0.549,
+          "avg_noise": 51.01546540450306,
+          "avg_noise_std": -0.651,
+          "color": [
+            62,
+            72,
+            136
+          ],
+          "lat": 40.6942696,
+          "lon": -73.9187482,
+          "med_floors_std": 0.0,
+          "median_floors": 4.0,
+          "num_crimes": 9220,
+          "num_crimes_std": 1.308,
+          "overall_median": 2099.5,
+          "overall_median_std": 0.249,
+          "predicted_rent": 2536.54,
+          "recent_median": 2682.0,
+          "recent_median_std": 0.238,
+          "score": -1.279,
+          "score_norm": 0.21847735149994024,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Carroll Gardens",
+          "avg_age": 7.79,
+          "avg_age_std": -0.5,
+          "avg_noise": 55.054245477358776,
+          "avg_noise_std": 0.814,
+          "color": [
+            62,
+            73,
+            137
+          ],
+          "lat": 40.6784201,
+          "lon": -73.9948021,
+          "med_floors_std": 0.0,
+          "median_floors": 4.0,
+          "num_crimes": 1828,
+          "num_crimes_std": -0.39,
+          "overall_median": 2438.0,
+          "overall_median_std": 0.672,
+          "predicted_rent": 2229.38,
+          "recent_median": 3000.0,
+          "recent_median_std": 0.461,
+          "score": -1.229,
+          "score_norm": 0.22146528026771842,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            50,
+            225,
+            25
+          ],
+          "area": "Castle Hill",
+          "avg_age": 10.41,
+          "avg_age_std": 2.069,
+          "avg_noise": 55.03546787525619,
+          "avg_noise_std": 0.807,
+          "color": [
+            39,
+            126,
+            142
+          ],
+          "lat": 40.8189076,
+          "lon": -73.8499209,
+          "med_floors_std": -0.5,
+          "median_floors": 3.0,
+          "num_crimes": 2909,
+          "num_crimes_std": -0.142,
+          "overall_median": 1325.0,
+          "overall_median_std": -0.718,
+          "predicted_rent": 2451.59,
+          "recent_median": 1325.0,
+          "recent_median_std": -0.714,
+          "score": 2.234,
+          "score_norm": 0.4284092267240349,
+          "unexpectedly_low_rent": true
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Central Park South",
+          "avg_age": 8.72,
+          "avg_age_std": 0.412,
+          "avg_noise": 52.6223592565724,
+          "avg_noise_std": -0.068,
+          "color": [
+            36,
+            134,
+            141
+          ],
+          "lat": 40.765135098928106,
+          "lon": -73.97494624918677,
+          "med_floors_std": 3.0,
+          "median_floors": 10.0,
+          "num_crimes": 6302,
+          "num_crimes_std": 0.637,
+          "overall_median": 2900.0,
+          "overall_median_std": 1.248,
+          "predicted_rent": 3232.42,
+          "recent_median": 3625.0,
+          "recent_median_std": 0.9,
+          "score": 2.731,
+          "score_norm": 0.45810923867575,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Chelsea",
+          "avg_age": 8.75,
+          "avg_age_std": 0.441,
+          "avg_noise": 52.45678544013491,
+          "avg_noise_std": -0.128,
+          "color": [
+            62,
+            72,
+            136
+          ],
+          "lat": 40.7464906,
+          "lon": -74.0015283,
+          "med_floors_std": 0.5,
+          "median_floors": 5.0,
+          "num_crimes": 3081,
+          "num_crimes_std": -0.102,
+          "overall_median": 2850.0,
+          "overall_median_std": 1.186,
+          "predicted_rent": 2683.2,
+          "recent_median": 4000.0,
+          "recent_median_std": 1.163,
+          "score": -1.307,
+          "score_norm": 0.21680411138998446,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Chinatown",
+          "avg_age": 8.88,
+          "avg_age_std": 0.569,
+          "avg_noise": 52.45971271353708,
+          "avg_noise_std": -0.127,
+          "color": [
+            56,
+            86,
+            139
+          ],
+          "lat": 40.7164913,
+          "lon": -73.9962504,
+          "med_floors_std": 0.75,
+          "median_floors": 5.5,
+          "num_crimes": 1407,
+          "num_crimes_std": -0.487,
+          "overall_median": 2000.0,
+          "overall_median_std": 0.125,
+          "predicted_rent": 2763.34,
+          "recent_median": 2475.0,
+          "recent_median_std": 0.093,
+          "score": -0.483,
+          "score_norm": 0.26604517748296885,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Clinton Hill",
+          "avg_age": 8.04,
+          "avg_age_std": -0.255,
+          "avg_noise": 51.18273397182909,
+          "avg_noise_std": -0.59,
+          "color": [
+            72,
+            35,
+            116
+          ],
+          "lat": 40.6897222,
+          "lon": -73.9652778,
+          "med_floors_std": 0.0,
+          "median_floors": 4.0,
+          "num_crimes": 3932,
+          "num_crimes_std": 0.093,
+          "overall_median": 1995.0,
+          "overall_median_std": 0.119,
+          "predicted_rent": 2579.48,
+          "recent_median": 3000.0,
+          "recent_median_std": 0.461,
+          "score": -3.271,
+          "score_norm": 0.0994382693916577,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Cobble Hill",
+          "avg_age": 8.41,
+          "avg_age_std": 0.108,
+          "avg_noise": 55.08161536130038,
+          "avg_noise_std": 0.823,
+          "color": [
+            63,
+            71,
+            136
+          ],
+          "lat": 40.687547,
+          "lon": -73.9973352,
+          "med_floors_std": 0.0,
+          "median_floors": 4.0,
+          "num_crimes": 541,
+          "num_crimes_std": -0.686,
+          "overall_median": 2200.0,
+          "overall_median_std": 0.375,
+          "predicted_rent": 2311.92,
+          "recent_median": 2898.0,
+          "recent_median_std": 0.389,
+          "score": -1.341,
+          "score_norm": 0.2147723198278953,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Columbia St Waterfront District",
+          "avg_age": 7.75,
+          "avg_age_std": -0.539,
+          "avg_noise": 57.496023306600954,
+          "avg_noise_std": 1.699,
+          "color": [
+            49,
+            100,
+            141
+          ],
+          "lat": 40.6872869,
+          "lon": -74.0019197,
+          "med_floors_std": 0.0,
+          "median_floors": 4.0,
+          "num_crimes": 488,
+          "num_crimes_std": -0.698,
+          "overall_median": 1934.0,
+          "overall_median_std": 0.042,
+          "predicted_rent": 2023.88,
+          "recent_median": 1934.0,
+          "recent_median_std": -0.287,
+          "score": 0.462,
+          "score_norm": 0.32251703119397634,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Coney Island",
+          "avg_age": 8.01,
+          "avg_age_std": -0.284,
+          "avg_noise": 53.617688399867006,
+          "avg_noise_std": 0.293,
+          "color": [
+            57,
+            84,
+            139
+          ],
+          "lat": 40.5756208,
+          "lon": -73.9813318,
+          "med_floors_std": -0.5,
+          "median_floors": 3.0,
+          "num_crimes": 3080,
+          "num_crimes_std": -0.103,
+          "overall_median": 1778.0,
+          "overall_median_std": -0.152,
+          "predicted_rent": 2258.59,
+          "recent_median": 1778.0,
+          "recent_median_std": -0.396,
+          "score": -0.594,
+          "score_norm": 0.25941197561850127,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Corona",
+          "avg_age": 9.1,
+          "avg_age_std": 0.784,
+          "avg_noise": 57.5284828365394,
+          "avg_noise_std": 1.71,
+          "color": [
+            38,
+            129,
+            142
+          ],
+          "lat": 40.7469593,
+          "lon": -73.8601456,
+          "med_floors_std": -0.5,
+          "median_floors": 3.0,
+          "num_crimes": 6836,
+          "num_crimes_std": 0.76,
+          "overall_median": 1455.0,
+          "overall_median_std": -0.556,
+          "predicted_rent": 2059.04,
+          "recent_median": 1546.0,
+          "recent_median_std": -0.559,
+          "score": 2.441,
+          "score_norm": 0.44077925182263655,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Crown Heights",
+          "avg_age": 7.38,
+          "avg_age_std": -0.902,
+          "avg_noise": 50.364138614430146,
+          "avg_noise_std": -0.887,
+          "color": [
+            72,
+            25,
+            107
+          ],
+          "lat": 40.667471,
+          "lon": -73.9435662,
+          "med_floors_std": 0.0,
+          "median_floors": 4.0,
+          "num_crimes": 6292,
+          "num_crimes_std": 0.635,
+          "overall_median": 1764.0,
+          "overall_median_std": -0.17,
+          "predicted_rent": 2554.48,
+          "recent_median": 2700.0,
+          "recent_median_std": 0.251,
+          "score": -3.807,
+          "score_norm": 0.06740767300107564,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "DUMBO",
+          "avg_age": 8.53,
+          "avg_age_std": 0.225,
+          "avg_noise": 58.61935084912043,
+          "avg_noise_std": 2.106,
+          "color": [
+            45,
+            111,
+            142
+          ],
+          "lat": 40.7029052,
+          "lon": -73.990118,
+          "med_floors_std": 0.5,
+          "median_floors": 5.0,
+          "num_crimes": 1132,
+          "num_crimes_std": -0.55,
+          "overall_median": 3195.0,
+          "overall_median_std": 1.617,
+          "predicted_rent": 2144.23,
+          "recent_median": 3921.0,
+          "recent_median_std": 1.107,
+          "score": 1.145,
+          "score_norm": 0.36333213816182625,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Ditmas Park",
+          "avg_age": 6.97,
+          "avg_age_std": -1.304,
+          "avg_noise": 52.290101923521306,
+          "avg_noise_std": -0.189,
+          "color": [
+            70,
+            45,
+            124
+          ],
+          "lat": 40.63753425,
+          "lon": -73.96340549923566,
+          "med_floors_std": -0.5,
+          "median_floors": 3.0,
+          "num_crimes": 5241,
+          "num_crimes_std": 0.394,
+          "overall_median": 1600.0,
+          "overall_median_std": -0.375,
+          "predicted_rent": 2227.67,
+          "recent_median": 1975.0,
+          "recent_median_std": -0.258,
+          "score": -2.771,
+          "score_norm": 0.12931755706943945,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Downtown Brooklyn",
+          "avg_age": 9.22,
+          "avg_age_std": 0.902,
+          "avg_noise": 53.82508294309995,
+          "avg_noise_std": 0.368,
+          "color": [
+            52,
+            95,
+            141
+          ],
+          "lat": 40.691572050000005,
+          "lon": -73.98676437548126,
+          "med_floors_std": 0.5,
+          "median_floors": 5.0,
+          "num_crimes": 4841,
+          "num_crimes_std": 0.302,
+          "overall_median": 2525.0,
+          "overall_median_std": 0.78,
+          "predicted_rent": 2623.36,
+          "recent_median": 3495.0,
+          "recent_median_std": 0.808,
+          "score": 0.151,
+          "score_norm": 0.30393211425839606,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "East Flatbush",
+          "avg_age": 7.7,
+          "avg_age_std": -0.588,
+          "avg_noise": 52.48962064932662,
+          "avg_noise_std": -0.116,
+          "color": [
+            71,
+            44,
+            123
+          ],
+          "lat": 40.6537148,
+          "lon": -73.9304151,
+          "med_floors_std": -0.5,
+          "median_floors": 3.0,
+          "num_crimes": 6374,
+          "num_crimes_std": 0.654,
+          "overall_median": 1552.5,
+          "overall_median_std": -0.434,
+          "predicted_rent": 2301.78,
+          "recent_median": 2250.0,
+          "recent_median_std": -0.065,
+          "score": -2.796,
+          "score_norm": 0.12782359268555038,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "East Harlem",
+          "avg_age": 8.7,
+          "avg_age_std": 0.392,
+          "avg_noise": 54.63872308683809,
+          "avg_noise_std": 0.663,
+          "color": [
+            36,
+            134,
+            141
+          ],
+          "lat": 40.7947222,
+          "lon": -73.9425,
+          "med_floors_std": 0.5,
+          "median_floors": 5.0,
+          "num_crimes": 15730,
+          "num_crimes_std": 2.803,
+          "overall_median": 1750.0,
+          "overall_median_std": -0.187,
+          "predicted_rent": 2450.46,
+          "recent_median": 2313.0,
+          "recent_median_std": -0.021,
+          "score": 2.749,
+          "score_norm": 0.4591848930321501,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "East New York",
+          "avg_age": 8.64,
+          "avg_age_std": 0.333,
+          "avg_noise": 51.42791649025147,
+          "avg_noise_std": -0.501,
+          "color": [
+            44,
+            113,
+            142
+          ],
+          "lat": 40.6667702,
+          "lon": -73.8823583,
+          "med_floors_std": -0.5,
+          "median_floors": 3.0,
+          "num_crimes": 12506,
+          "num_crimes_std": 2.062,
+          "overall_median": 2293.5,
+          "overall_median_std": 0.491,
+          "predicted_rent": 2491.89,
+          "recent_median": 2343.0,
+          "recent_median_std": 0.0,
+          "score": 1.286,
+          "score_norm": 0.37175809728696074,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "East Village",
+          "avg_age": 8.56,
+          "avg_age_std": 0.255,
+          "avg_noise": 52.06345055847389,
+          "avg_noise_std": -0.271,
+          "color": [
+            54,
+            90,
+            140
+          ],
+          "lat": 40.7292688,
+          "lon": -73.9873613,
+          "med_floors_std": 1.0,
+          "median_floors": 6.0,
+          "num_crimes": 4423,
+          "num_crimes_std": 0.206,
+          "overall_median": 2199.0,
+          "overall_median_std": 0.373,
+          "predicted_rent": 2802.57,
+          "recent_median": 2799.0,
+          "recent_median_std": 0.32,
+          "score": -0.174,
+          "score_norm": 0.2845105772678379,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Elmhurst",
+          "avg_age": 8.86,
+          "avg_age_std": 0.549,
+          "avg_noise": 55.811946316628536,
+          "avg_noise_std": 1.088,
+          "color": [
+            48,
+            103,
+            141
+          ],
+          "lat": 40.7365804,
+          "lon": -73.8783932,
+          "med_floors_std": -0.5,
+          "median_floors": 3.0,
+          "num_crimes": 5864,
+          "num_crimes_std": 0.537,
+          "overall_median": 1575.0,
+          "overall_median_std": -0.406,
+          "predicted_rent": 2175.25,
+          "recent_median": 1900.0,
+          "recent_median_std": -0.311,
+          "score": 0.642,
+          "score_norm": 0.3332735747579778,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Financial District",
+          "avg_age": 7.98,
+          "avg_age_std": -0.314,
+          "avg_noise": 54.74134444681803,
+          "avg_noise_std": 0.7,
+          "color": [
+            136,
+            213,
+            71
+          ],
+          "lat": 40.7076681,
+          "lon": -74.009271,
+          "med_floors_std": 10.0,
+          "median_floors": 24.0,
+          "num_crimes": 3060,
+          "num_crimes_std": -0.107,
+          "overall_median": 2900.0,
+          "overall_median_std": 1.248,
+          "predicted_rent": 4588.07,
+          "recent_median": 3748.0,
+          "recent_median_std": 0.986,
+          "score": 8.817,
+          "score_norm": 0.8217999282897096,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Flatbush",
+          "avg_age": 6.19,
+          "avg_age_std": -2.069,
+          "avg_noise": 51.989046223446636,
+          "avg_noise_std": -0.298,
+          "color": [
+            70,
+            12,
+            95
+          ],
+          "lat": 40.6520481,
+          "lon": -73.959027,
+          "med_floors_std": 0.0,
+          "median_floors": 4.0,
+          "num_crimes": 5790,
+          "num_crimes_std": 0.52,
+          "overall_median": 1600.0,
+          "overall_median_std": -0.375,
+          "predicted_rent": 2265.46,
+          "recent_median": 2400.0,
+          "recent_median_std": 0.04,
+          "score": -4.347,
+          "score_norm": 0.035138042309071305,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Flatiron",
+          "avg_age": 8.7,
+          "avg_age_std": 0.392,
+          "avg_noise": 51.310676545135735,
+          "avg_noise_std": -0.544,
+          "color": [
+            48,
+            103,
+            141
+          ],
+          "lat": 40.741059199999995,
+          "lon": -73.98964162240998,
+          "med_floors_std": 2.5,
+          "median_floors": 9.0,
+          "num_crimes": 3088,
+          "num_crimes_std": -0.101,
+          "overall_median": 3200.0,
+          "overall_median_std": 1.623,
+          "predicted_rent": 3235.25,
+          "recent_median": 4240.0,
+          "recent_median_std": 1.331,
+          "score": 0.622,
+          "score_norm": 0.3320784032508665,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Flushing",
+          "avg_age": 8.49,
+          "avg_age_std": 0.186,
+          "avg_noise": 54.054490854439784,
+          "avg_noise_std": 0.451,
+          "color": [
+            50,
+            98,
+            141
+          ],
+          "lat": 40.7654301,
+          "lon": -73.8174291,
+          "med_floors_std": -0.5,
+          "median_floors": 3.0,
+          "num_crimes": 7246,
+          "num_crimes_std": 0.854,
+          "overall_median": 1591.5,
+          "overall_median_std": -0.385,
+          "predicted_rent": 2269.99,
+          "recent_median": 1800.0,
+          "recent_median_std": -0.381,
+          "score": 0.336,
+          "score_norm": 0.3149874506991754,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Forest Hills",
+          "avg_age": 8.57,
+          "avg_age_std": 0.265,
+          "avg_noise": 54.38963567874306,
+          "avg_noise_std": 0.573,
+          "color": [
+            65,
+            65,
+            134
+          ],
+          "lat": 40.723100900000006,
+          "lon": -73.84661252338407,
+          "med_floors_std": -1.0,
+          "median_floors": 2.0,
+          "num_crimes": 2337,
+          "num_crimes_std": -0.273,
+          "overall_median": 1574.0,
+          "overall_median_std": -0.407,
+          "predicted_rent": 2153.41,
+          "recent_median": 1975.0,
+          "recent_median_std": -0.258,
+          "score": -1.709,
+          "score_norm": 0.19278116409704793,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Fort Greene",
+          "avg_age": 7.93,
+          "avg_age_std": -0.363,
+          "avg_noise": 54.361620678556775,
+          "avg_noise_std": 0.562,
+          "color": [
+            67,
+            59,
+            131
+          ],
+          "lat": 40.6907711,
+          "lon": -73.9766245,
+          "med_floors_std": 0.0,
+          "median_floors": 4.0,
+          "num_crimes": 2077,
+          "num_crimes_std": -0.333,
+          "overall_median": 2399.0,
+          "overall_median_std": 0.623,
+          "predicted_rent": 2304.81,
+          "recent_median": 3317.0,
+          "recent_median_std": 0.684,
+          "score": -2.047,
+          "score_norm": 0.17258276562686745,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Gowanus",
+          "avg_age": 6.97,
+          "avg_age_std": -1.304,
+          "avg_noise": 51.509369477268734,
+          "avg_noise_std": -0.472,
+          "color": [
+            72,
+            28,
+            110
+          ],
+          "lat": 40.6791695,
+          "lon": -73.9885041,
+          "med_floors_std": 0.0,
+          "median_floors": 4.0,
+          "num_crimes": 581,
+          "num_crimes_std": -0.677,
+          "overall_median": 2621.0,
+          "overall_median_std": 0.9,
+          "predicted_rent": 2424.69,
+          "recent_median": 3250.0,
+          "recent_median_std": 0.636,
+          "score": -3.653,
+          "score_norm": 0.07661049360583241,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Gramercy Park",
+          "avg_age": 8.26,
+          "avg_age_std": -0.039,
+          "avg_noise": 53.23760700510509,
+          "avg_noise_std": 0.155,
+          "color": [
+            50,
+            98,
+            141
+          ],
+          "lat": 40.73795015,
+          "lon": -73.9859154154733,
+          "med_floors_std": 1.5,
+          "median_floors": 7.0,
+          "num_crimes": 5040,
+          "num_crimes_std": 0.347,
+          "overall_median": 2650.0,
+          "overall_median_std": 0.936,
+          "predicted_rent": 2778.62,
+          "recent_median": 3500.0,
+          "recent_median_std": 0.812,
+          "score": 0.359,
+          "score_norm": 0.3163618979323533,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            50,
+            225,
+            25
+          ],
+          "area": "Gravesend",
+          "avg_age": 8.51,
+          "avg_age_std": 0.206,
+          "avg_noise": 51.48315464329075,
+          "avg_noise_std": -0.481,
+          "color": [
+            62,
+            73,
+            137
+          ],
+          "lat": 40.5961338,
+          "lon": -73.9739426,
+          "med_floors_std": -0.5,
+          "median_floors": 3.0,
+          "num_crimes": 2486,
+          "num_crimes_std": -0.239,
+          "overall_median": 1450.0,
+          "overall_median_std": -0.562,
+          "predicted_rent": 2504.59,
+          "recent_median": 1525.0,
+          "recent_median_std": -0.574,
+          "score": -1.273,
+          "score_norm": 0.21883590295207364,
+          "unexpectedly_low_rent": true
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Greenpoint",
+          "avg_age": 7.67,
+          "avg_age_std": -0.618,
+          "avg_noise": 51.71913751917561,
+          "avg_noise_std": -0.395,
+          "color": [
+            71,
+            38,
+            118
+          ],
+          "lat": 40.7237134,
+          "lon": -73.9509714,
+          "med_floors_std": 0.0,
+          "median_floors": 4.0,
+          "num_crimes": 2299,
+          "num_crimes_std": -0.282,
+          "overall_median": 2550.0,
+          "overall_median_std": 0.811,
+          "predicted_rent": 2492.04,
+          "recent_median": 3475.0,
+          "recent_median_std": 0.794,
+          "score": -3.109,
+          "score_norm": 0.10911915859925898,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Greenwich Village",
+          "avg_age": 8.77,
+          "avg_age_std": 0.461,
+          "avg_noise": 51.1689064780548,
+          "avg_noise_std": -0.595,
+          "color": [
+            60,
+            77,
+            138
+          ],
+          "lat": 40.7319802,
+          "lon": -73.9965658,
+          "med_floors_std": 0.5,
+          "median_floors": 5.0,
+          "num_crimes": 3521,
+          "num_crimes_std": -0.001,
+          "overall_median": 2750.0,
+          "overall_median_std": 1.061,
+          "predicted_rent": 2792.36,
+          "recent_median": 3500.0,
+          "recent_median_std": 0.812,
+          "score": -0.999,
+          "score_norm": 0.23520975259949803,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Hamilton Heights",
+          "avg_age": 8.66,
+          "avg_age_std": 0.353,
+          "avg_noise": 51.82772306662439,
+          "avg_noise_std": -0.356,
+          "color": [
+            52,
+            94,
+            141
+          ],
+          "lat": 40.8241451,
+          "lon": -73.9500618,
+          "med_floors_std": 0.0,
+          "median_floors": 4.0,
+          "num_crimes": 9702,
+          "num_crimes_std": 1.418,
+          "overall_median": 1650.0,
+          "overall_median_std": -0.312,
+          "predicted_rent": 2586.11,
+          "recent_median": 2095.0,
+          "recent_median_std": -0.174,
+          "score": 0.067,
+          "score_norm": 0.29891239392852875,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Highbridge",
+          "avg_age": 8.15,
+          "avg_age_std": -0.147,
+          "avg_noise": 57.234915245852,
+          "avg_noise_std": 1.604,
+          "color": [
+            34,
+            139,
+            141
+          ],
+          "lat": 40.84595055,
+          "lon": -73.92990605351383,
+          "med_floors_std": 1.0,
+          "median_floors": 6.0,
+          "num_crimes": 6586,
+          "num_crimes_std": 0.703,
+          "overall_median": 1599.0,
+          "overall_median_std": -0.376,
+          "predicted_rent": 2308.07,
+          "recent_median": 1599.0,
+          "recent_median_std": -0.522,
+          "score": 3.16,
+          "score_norm": 0.4837456675032867,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Inwood",
+          "avg_age": 8.83,
+          "avg_age_std": 0.52,
+          "avg_noise": 59.07480610948481,
+          "avg_noise_std": 2.271,
+          "color": [
+            36,
+            133,
+            141
+          ],
+          "lat": 40.623475,
+          "lon": -73.75135211636604,
+          "med_floors_std": -0.5,
+          "median_floors": 3.0,
+          "num_crimes": 7288,
+          "num_crimes_std": 0.864,
+          "overall_median": 1625.0,
+          "overall_median_std": -0.343,
+          "predicted_rent": 1892.72,
+          "recent_median": 1775.0,
+          "recent_median_std": -0.399,
+          "score": 2.693,
+          "score_norm": 0.45583841281223864,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Jackson Heights",
+          "avg_age": 9.14,
+          "avg_age_std": 0.824,
+          "avg_noise": 55.35920035931979,
+          "avg_noise_std": 0.924,
+          "color": [
+            42,
+            118,
+            142
+          ],
+          "lat": 40.7556561,
+          "lon": -73.8857755,
+          "med_floors_std": -0.5,
+          "median_floors": 3.0,
+          "num_crimes": 8547,
+          "num_crimes_std": 1.153,
+          "overall_median": 1600.0,
+          "overall_median_std": -0.375,
+          "predicted_rent": 2240.41,
+          "recent_median": 1850.0,
+          "recent_median_std": -0.346,
+          "score": 1.62,
+          "score_norm": 0.3917174614557189,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Jamaica",
+          "avg_age": 7.65,
+          "avg_age_std": -0.637,
+          "avg_noise": 57.196794327150876,
+          "avg_noise_std": 1.59,
+          "color": [
+            46,
+            107,
+            142
+          ],
+          "lat": 40.699835,
+          "lon": -73.8077023,
+          "med_floors_std": -0.5,
+          "median_floors": 3.0,
+          "num_crimes": 7073,
+          "num_crimes_std": 0.814,
+          "overall_median": 2026.0,
+          "overall_median_std": 0.157,
+          "predicted_rent": 1897.94,
+          "recent_median": 2170.0,
+          "recent_median_std": -0.121,
+          "score": 0.912,
+          "score_norm": 0.34940839010397995,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Jamaica Estates",
+          "avg_age": 8.62,
+          "avg_age_std": 0.314,
+          "avg_noise": 52.48231702691005,
+          "avg_noise_std": -0.119,
+          "color": [
+            56,
+            87,
+            140
+          ],
+          "lat": 40.71334555,
+          "lon": -73.78251095420785,
+          "med_floors_std": -0.5,
+          "median_floors": 3.0,
+          "num_crimes": 3664,
+          "num_crimes_std": 0.031,
+          "overall_median": 1650.0,
+          "overall_median_std": -0.312,
+          "predicted_rent": 2431.0,
+          "recent_median": 1699.0,
+          "recent_median_std": -0.452,
+          "score": -0.422,
+          "score_norm": 0.2696904505796582,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Jamaica Hills",
+          "avg_age": 8.08,
+          "avg_age_std": -0.216,
+          "avg_noise": 54.772333264690516,
+          "avg_noise_std": 0.711,
+          "color": [
+            54,
+            90,
+            140
+          ],
+          "lat": 40.6884111,
+          "lon": -73.8762064,
+          "med_floors_std": -0.5,
+          "median_floors": 3.0,
+          "num_crimes": 2775,
+          "num_crimes_std": -0.173,
+          "overall_median": 1600.0,
+          "overall_median_std": -0.375,
+          "predicted_rent": 2171.83,
+          "recent_median": 1600.0,
+          "recent_median_std": -0.521,
+          "score": -0.178,
+          "score_norm": 0.2842715429664157,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Kew Gardens",
+          "avg_age": 7.86,
+          "avg_age_std": -0.431,
+          "avg_noise": 58.24582735349054,
+          "avg_noise_std": 1.971,
+          "color": [
+            57,
+            85,
+            139
+          ],
+          "lat": 40.7139415,
+          "lon": -73.830742,
+          "med_floors_std": -0.5,
+          "median_floors": 3.0,
+          "num_crimes": 987,
+          "num_crimes_std": -0.583,
+          "overall_median": 1525.0,
+          "overall_median_std": -0.468,
+          "predicted_rent": 1857.94,
+          "recent_median": 1825.0,
+          "recent_median_std": -0.364,
+          "score": -0.527,
+          "score_norm": 0.263415800167324,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Kingsbridge",
+          "avg_age": 6.52,
+          "avg_age_std": -1.745,
+          "avg_noise": 52.78562643256463,
+          "avg_noise_std": -0.009,
+          "color": [
+            68,
+            55,
+            129
+          ],
+          "lat": 40.8787051,
+          "lon": -73.9051408,
+          "med_floors_std": -0.5,
+          "median_floors": 3.0,
+          "num_crimes": 3527,
+          "num_crimes_std": 0.0,
+          "overall_median": 1450.0,
+          "overall_median_std": -0.562,
+          "predicted_rent": 2133.56,
+          "recent_median": 1450.0,
+          "recent_median_std": -0.627,
+          "score": -2.254,
+          "score_norm": 0.1602127405282658,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Little Italy",
+          "avg_age": 8.81,
+          "avg_age_std": 0.5,
+          "avg_noise": 52.21377365544157,
+          "avg_noise_std": -0.216,
+          "color": [
+            45,
+            110,
+            142
+          ],
+          "lat": 40.7192728,
+          "lon": -73.9982152,
+          "med_floors_std": 1.0,
+          "median_floors": 6.0,
+          "num_crimes": 1145,
+          "num_crimes_std": -0.547,
+          "overall_median": 2170.0,
+          "overall_median_std": 0.337,
+          "predicted_rent": 2833.58,
+          "recent_median": 1995.0,
+          "recent_median_std": -0.244,
+          "score": 1.14,
+          "score_norm": 0.3630333452850484,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Long Island City",
+          "avg_age": 7.25,
+          "avg_age_std": -1.029,
+          "avg_noise": 54.32098160043431,
+          "avg_noise_std": 0.548,
+          "color": [
+            66,
+            61,
+            132
+          ],
+          "lat": 40.7455316,
+          "lon": -73.9484995,
+          "med_floors_std": 0.5,
+          "median_floors": 5.0,
+          "num_crimes": 3520,
+          "num_crimes_std": -0.002,
+          "overall_median": 2450.0,
+          "overall_median_std": 0.687,
+          "predicted_rent": 2330.67,
+          "recent_median": 3375.0,
+          "recent_median_std": 0.724,
+          "score": -1.871,
+          "score_norm": 0.18310027488944663,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Lower East Side",
+          "avg_age": 8.43,
+          "avg_age_std": 0.127,
+          "avg_noise": 54.72622855797921,
+          "avg_noise_std": 0.695,
+          "color": [
+            49,
+            102,
+            141
+          ],
+          "lat": 40.7159357,
+          "lon": -73.9868057,
+          "med_floors_std": 1.0,
+          "median_floors": 6.0,
+          "num_crimes": 5751,
+          "num_crimes_std": 0.511,
+          "overall_median": 2250.0,
+          "overall_median_std": 0.437,
+          "predicted_rent": 2557.75,
+          "recent_median": 3038.0,
+          "recent_median_std": 0.488,
+          "score": 0.582,
+          "score_norm": 0.329688060236644,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Maspeth",
+          "avg_age": 8.93,
+          "avg_age_std": 0.618,
+          "avg_noise": 51.992783417986175,
+          "avg_noise_std": -0.296,
+          "color": [
+            62,
+            73,
+            137
+          ],
+          "lat": 40.723158,
+          "lon": -73.912637,
+          "med_floors_std": -1.0,
+          "median_floors": 2.0,
+          "num_crimes": 1031,
+          "num_crimes_std": -0.573,
+          "overall_median": 2000.0,
+          "overall_median_std": 0.125,
+          "predicted_rent": 2405.69,
+          "recent_median": 2000.0,
+          "recent_median_std": -0.241,
+          "score": -1.251,
+          "score_norm": 0.22015059160989603,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Midtown",
+          "avg_age": 9.21,
+          "avg_age_std": 0.892,
+          "avg_noise": 52.397373270425085,
+          "avg_noise_std": -0.15,
+          "color": [
+            32,
+            143,
+            140
+          ],
+          "lat": 40.7551169,
+          "lon": -73.98478,
+          "med_floors_std": 1.5,
+          "median_floors": 7.0,
+          "num_crimes": 14077,
+          "num_crimes_std": 2.423,
+          "overall_median": 2850.0,
+          "overall_median_std": 1.186,
+          "predicted_rent": 2941.53,
+          "recent_median": 3561.0,
+          "recent_median_std": 0.855,
+          "score": 3.418,
+          "score_norm": 0.49916337994502213,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Midtown East",
+          "avg_age": 8.39,
+          "avg_age_std": 0.088,
+          "avg_noise": 52.989512150281854,
+          "avg_noise_std": 0.065,
+          "color": [
+            42,
+            118,
+            142
+          ],
+          "lat": 40.7598219,
+          "lon": -73.9724708,
+          "med_floors_std": 3.0,
+          "median_floors": 10.0,
+          "num_crimes": 4098,
+          "num_crimes_std": 0.131,
+          "overall_median": 2400.0,
+          "overall_median_std": 0.624,
+          "predicted_rent": 3166.32,
+          "recent_median": 3200.0,
+          "recent_median_std": 0.601,
+          "score": 1.617,
+          "score_norm": 0.3915381857296522,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Midtown South",
+          "avg_age": 8.39,
+          "avg_age_std": 0.088,
+          "avg_noise": 54.616035276843654,
+          "avg_noise_std": 0.655,
+          "color": [
+            42,
+            176,
+            126
+          ],
+          "lat": 40.7498417,
+          "lon": -73.984251,
+          "med_floors_std": 5.5,
+          "median_floors": 15.0,
+          "num_crimes": 8128,
+          "num_crimes_std": 1.057,
+          "overall_median": 2950.0,
+          "overall_median_std": 1.311,
+          "predicted_rent": 3594.08,
+          "recent_median": 3900.0,
+          "recent_median_std": 1.093,
+          "score": 5.69,
+          "score_norm": 0.6349348631528625,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Midtown West",
+          "avg_age": 8.87,
+          "avg_age_std": 0.559,
+          "avg_noise": 54.335321198339045,
+          "avg_noise_std": 0.553,
+          "color": [
+            30,
+            152,
+            138
+          ],
+          "lat": 40.755284950000004,
+          "lon": -74.00674338577971,
+          "med_floors_std": 5.0,
+          "median_floors": 14.0,
+          "num_crimes": 1750,
+          "num_crimes_std": -0.408,
+          "overall_median": 2633.0,
+          "overall_median_std": 0.915,
+          "predicted_rent": 3586.09,
+          "recent_median": 3538.0,
+          "recent_median_std": 0.839,
+          "score": 3.985,
+          "score_norm": 0.5330464921716267,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Midwood",
+          "avg_age": 8.2,
+          "avg_age_std": -0.098,
+          "avg_noise": 52.07188146324244,
+          "avg_noise_std": -0.268,
+          "color": [
+            69,
+            54,
+            129
+          ],
+          "lat": 40.6188823,
+          "lon": -73.9654889,
+          "med_floors_std": -0.5,
+          "median_floors": 3.0,
+          "num_crimes": 3581,
+          "num_crimes_std": 0.012,
+          "overall_median": 1490.0,
+          "overall_median_std": -0.512,
+          "predicted_rent": 2411.23,
+          "recent_median": 1910.0,
+          "recent_median_std": -0.304,
+          "score": -2.263,
+          "score_norm": 0.15967491335006573,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Morningside Heights",
+          "avg_age": 8.7,
+          "avg_age_std": 0.392,
+          "avg_noise": 51.169543401798926,
+          "avg_noise_std": -0.595,
+          "color": [
+            56,
+            87,
+            140
+          ],
+          "lat": 40.81,
+          "lon": -73.9625,
+          "med_floors_std": 0.5,
+          "median_floors": 5.0,
+          "num_crimes": 7312,
+          "num_crimes_std": 0.869,
+          "overall_median": 2295.0,
+          "overall_median_std": 0.493,
+          "predicted_rent": 2770.28,
+          "recent_median": 3000.0,
+          "recent_median_std": 0.461,
+          "score": -0.37,
+          "score_norm": 0.2727978964981475,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            50,
+            225,
+            25
+          ],
+          "area": "Morris Park",
+          "avg_age": 8.72,
+          "avg_age_std": 0.412,
+          "avg_noise": 50.355473953085315,
+          "avg_noise_std": -0.89,
+          "color": [
+            67,
+            58,
+            131
+          ],
+          "lat": 40.8545235,
+          "lon": -73.8602968,
+          "med_floors_std": -1.0,
+          "median_floors": 2.0,
+          "num_crimes": 851,
+          "num_crimes_std": -0.615,
+          "overall_median": 1325.0,
+          "overall_median_std": -0.718,
+          "predicted_rent": 2516.44,
+          "recent_median": 1325.0,
+          "recent_median_std": -0.714,
+          "score": -2.093,
+          "score_norm": 0.16983387116051152,
+          "unexpectedly_low_rent": true
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Mott Haven",
+          "avg_age": 7.49,
+          "avg_age_std": -0.794,
+          "avg_noise": 57.2668574150385,
+          "avg_noise_std": 1.616,
+          "color": [
+            47,
+            105,
+            141
+          ],
+          "lat": 40.8089897,
+          "lon": -73.9229147,
+          "med_floors_std": 0.0,
+          "median_floors": 4.0,
+          "num_crimes": 11290,
+          "num_crimes_std": 1.783,
+          "overall_median": 2200.0,
+          "overall_median_std": 0.375,
+          "predicted_rent": 1972.51,
+          "recent_median": 3008.0,
+          "recent_median_std": 0.467,
+          "score": 0.769,
+          "score_norm": 0.3408629138281344,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Nolita",
+          "avg_age": 9.63,
+          "avg_age_std": 1.304,
+          "avg_noise": 51.98282319132487,
+          "avg_noise_std": -0.3,
+          "color": [
+            50,
+            99,
+            141
+          ],
+          "lat": 40.7209123,
+          "lon": -73.9961959,
+          "med_floors_std": 1.0,
+          "median_floors": 6.0,
+          "num_crimes": 1589,
+          "num_crimes_std": -0.445,
+          "overall_median": 2800.0,
+          "overall_median_std": 1.124,
+          "predicted_rent": 2957.84,
+          "recent_median": 3445.0,
+          "recent_median_std": 0.773,
+          "score": 0.407,
+          "score_norm": 0.31923030954942033,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Park Slope",
+          "avg_age": 8.01,
+          "avg_age_std": -0.284,
+          "avg_noise": 52.49637539662895,
+          "avg_noise_std": -0.114,
+          "color": [
+            70,
+            47,
+            124
+          ],
+          "lat": 40.6701033,
+          "lon": -73.9859723,
+          "med_floors_std": 0.0,
+          "median_floors": 4.0,
+          "num_crimes": 2164,
+          "num_crimes_std": -0.313,
+          "overall_median": 1948.5,
+          "overall_median_std": 0.061,
+          "predicted_rent": 2471.4,
+          "recent_median": 2725.0,
+          "recent_median_std": 0.268,
+          "score": -2.704,
+          "score_norm": 0.1333213816182622,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Pelham Parkway",
+          "avg_age": 7.18,
+          "avg_age_std": -1.098,
+          "avg_noise": 52.1115066775717,
+          "avg_noise_std": -0.253,
+          "color": [
+            63,
+            71,
+            136
+          ],
+          "lat": 40.857229,
+          "lon": -73.8676281,
+          "med_floors_std": 0.5,
+          "median_floors": 5.0,
+          "num_crimes": 1185,
+          "num_crimes_std": -0.538,
+          "overall_median": 1675.0,
+          "overall_median_std": -0.281,
+          "predicted_rent": 2514.95,
+          "recent_median": 1675.0,
+          "recent_median_std": -0.469,
+          "score": -1.389,
+          "score_norm": 0.21190390821082825,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Prospect Heights",
+          "avg_age": 8.24,
+          "avg_age_std": -0.059,
+          "avg_noise": 49.68587844848633,
+          "avg_noise_std": -1.133,
+          "color": [
+            72,
+            29,
+            111
+          ],
+          "lat": 40.6778708,
+          "lon": -73.9684725,
+          "med_floors_std": 0.0,
+          "median_floors": 4.0,
+          "num_crimes": 3514,
+          "num_crimes_std": -0.003,
+          "overall_median": 2301.0,
+          "overall_median_std": 0.501,
+          "predicted_rent": 2732.45,
+          "recent_median": 3398.0,
+          "recent_median_std": 0.74,
+          "score": -3.579,
+          "score_norm": 0.08103262818214411,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Prospect Park South",
+          "avg_age": 7.27,
+          "avg_age_std": -1.01,
+          "avg_noise": 51.95670216495165,
+          "avg_noise_std": -0.309,
+          "color": [
+            68,
+            1,
+            84
+          ],
+          "lat": 40.6477748,
+          "lon": -73.96549842672559,
+          "med_floors_std": -0.5,
+          "median_floors": 3.0,
+          "num_crimes": 1358,
+          "num_crimes_std": -0.498,
+          "overall_median": 1595.0,
+          "overall_median_std": -0.381,
+          "predicted_rent": 2307.82,
+          "recent_median": 2430.0,
+          "recent_median_std": 0.061,
+          "score": -4.935,
+          "score_norm": 0.0,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Rego Park",
+          "avg_age": 8.96,
+          "avg_age_std": 0.647,
+          "avg_noise": 53.7230344689702,
+          "avg_noise_std": 0.331,
+          "color": [
+            69,
+            54,
+            129
+          ],
+          "lat": 40.72286495,
+          "lon": -73.86210252803048,
+          "med_floors_std": -1.0,
+          "median_floors": 2.0,
+          "num_crimes": 1934,
+          "num_crimes_std": -0.366,
+          "overall_median": 1619.0,
+          "overall_median_std": -0.351,
+          "predicted_rent": 2261.32,
+          "recent_median": 2235.0,
+          "recent_median_std": -0.076,
+          "score": -2.29,
+          "score_norm": 0.1580614318154655,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Ridgewood",
+          "avg_age": 7.52,
+          "avg_age_std": -0.765,
+          "avg_noise": 50.074326427399164,
+          "avg_noise_std": -0.992,
+          "color": [
+            71,
+            44,
+            123
+          ],
+          "lat": 40.7080556,
+          "lon": -73.9141667,
+          "med_floors_std": -0.5,
+          "median_floors": 3.0,
+          "num_crimes": 3900,
+          "num_crimes_std": 0.086,
+          "overall_median": 1950.0,
+          "overall_median_std": 0.062,
+          "predicted_rent": 2489.53,
+          "recent_median": 2195.0,
+          "recent_median_std": -0.104,
+          "score": -2.799,
+          "score_norm": 0.12764431695948367,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Riverdale",
+          "avg_age": 8.91,
+          "avg_age_std": 0.598,
+          "avg_noise": 52.416775132188405,
+          "avg_noise_std": -0.143,
+          "color": [
+            71,
+            44,
+            123
+          ],
+          "lat": 40.90056,
+          "lon": -73.90639,
+          "med_floors_std": -1.0,
+          "median_floors": 2.0,
+          "num_crimes": 774,
+          "num_crimes_std": -0.632,
+          "overall_median": 1500.0,
+          "overall_median_std": -0.499,
+          "predicted_rent": 2368.39,
+          "recent_median": 1985.0,
+          "recent_median_std": -0.251,
+          "score": -2.794,
+          "score_norm": 0.1279431098362615,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Roosevelt Island",
+          "avg_age": 8.18,
+          "avg_age_std": -0.118,
+          "avg_noise": 51.29955546587182,
+          "avg_noise_std": -0.548,
+          "color": [
+            61,
+            76,
+            137
+          ],
+          "lat": 40.76133675,
+          "lon": -73.95028526170718,
+          "med_floors_std": 1.0,
+          "median_floors": 6.0,
+          "num_crimes": 3569,
+          "num_crimes_std": 0.01,
+          "overall_median": 2695.0,
+          "overall_median_std": 0.993,
+          "predicted_rent": 2820.28,
+          "recent_median": 3455.0,
+          "recent_median_std": 0.78,
+          "score": -1.066,
+          "score_norm": 0.23120592805067527,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Sheepshead Bay",
+          "avg_age": 8.2,
+          "avg_age_std": -0.098,
+          "avg_noise": 53.24069611210151,
+          "avg_noise_std": 0.156,
+          "color": [
+            66,
+            62,
+            133
+          ],
+          "lat": 40.5912161,
+          "lon": -73.9445822,
+          "med_floors_std": -0.5,
+          "median_floors": 3.0,
+          "num_crimes": 2321,
+          "num_crimes_std": -0.277,
+          "overall_median": 1499.0,
+          "overall_median_std": -0.501,
+          "predicted_rent": 2317.46,
+          "recent_median": 1829.0,
+          "recent_median_std": -0.361,
+          "score": -1.82,
+          "score_norm": 0.18614796223258034,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Soho",
+          "avg_age": 9.35,
+          "avg_age_std": 1.029,
+          "avg_noise": 53.955841620763145,
+          "avg_noise_std": 0.415,
+          "color": [
+            47,
+            105,
+            141
+          ],
+          "lat": 40.72288,
+          "lon": -73.9987505,
+          "med_floors_std": 1.0,
+          "median_floors": 6.0,
+          "num_crimes": 3923,
+          "num_crimes_std": 0.091,
+          "overall_median": 2550.0,
+          "overall_median_std": 0.811,
+          "predicted_rent": 2747.99,
+          "recent_median": 3448.0,
+          "recent_median_std": 0.775,
+          "score": 0.774,
+          "score_norm": 0.3411617067049122,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Sunnyside",
+          "avg_age": 7.42,
+          "avg_age_std": -0.863,
+          "avg_noise": 55.58432010928798,
+          "avg_noise_std": 1.006,
+          "color": [
+            66,
+            62,
+            133
+          ],
+          "lat": 40.7398242,
+          "lon": -73.9354153,
+          "med_floors_std": -0.5,
+          "median_floors": 3.0,
+          "num_crimes": 1926,
+          "num_crimes_std": -0.368,
+          "overall_median": 1625.0,
+          "overall_median_std": -0.343,
+          "predicted_rent": 2020.96,
+          "recent_median": 1988.0,
+          "recent_median_std": -0.249,
+          "score": -1.842,
+          "score_norm": 0.18483327357475796,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Sunset Park",
+          "avg_age": 8.5,
+          "avg_age_std": 0.196,
+          "avg_noise": 53.44858939211134,
+          "avg_noise_std": 0.231,
+          "color": [
+            49,
+            102,
+            141
+          ],
+          "lat": 40.6442221,
+          "lon": -74.0075907,
+          "med_floors_std": -0.5,
+          "median_floors": 3.0,
+          "num_crimes": 5410,
+          "num_crimes_std": 0.432,
+          "overall_median": 1622.5,
+          "overall_median_std": -0.346,
+          "predicted_rent": 2328.4,
+          "recent_median": 1550.0,
+          "recent_median_std": -0.556,
+          "score": 0.582,
+          "score_norm": 0.329688060236644,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Tremont",
+          "avg_age": 5.68,
+          "avg_age_std": -2.569,
+          "avg_noise": 57.785628116797476,
+          "avg_noise_std": 1.804,
+          "color": [
+            54,
+            91,
+            140
+          ],
+          "lat": 40.8468963,
+          "lon": -73.8997552,
+          "med_floors_std": 0.0,
+          "median_floors": 4.0,
+          "num_crimes": 6280,
+          "num_crimes_std": 0.632,
+          "overall_median": 1410.0,
+          "overall_median_std": -0.612,
+          "predicted_rent": 1711.24,
+          "recent_median": 1410.0,
+          "recent_median_std": -0.655,
+          "score": -0.133,
+          "score_norm": 0.28696067885741605,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Tribeca",
+          "avg_age": 9.09,
+          "avg_age_std": 0.775,
+          "avg_noise": 52.75475043449502,
+          "avg_noise_std": -0.02,
+          "color": [
+            52,
+            95,
+            141
+          ],
+          "lat": 40.7153802,
+          "lon": -74.0093063,
+          "med_floors_std": 1.0,
+          "median_floors": 6.0,
+          "num_crimes": 2261,
+          "num_crimes_std": -0.291,
+          "overall_median": 3675.0,
+          "overall_median_std": 2.216,
+          "predicted_rent": 2820.71,
+          "recent_median": 4650.0,
+          "recent_median_std": 1.619,
+          "score": 0.137,
+          "score_norm": 0.3030954942034182,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            50,
+            225,
+            25
+          ],
+          "area": "University Heights",
+          "avg_age": 6.36,
+          "avg_age_std": -1.902,
+          "avg_noise": 54.87463505241497,
+          "avg_noise_std": 0.748,
+          "color": [
+            55,
+            88,
+            140
+          ],
+          "lat": 40.8601,
+          "lon": -73.909303,
+          "med_floors_std": 0.0,
+          "median_floors": 4.0,
+          "num_crimes": 7241,
+          "num_crimes_std": 0.853,
+          "overall_median": 1111.0,
+          "overall_median_std": -0.985,
+          "predicted_rent": 2040.44,
+          "recent_median": 1111.0,
+          "recent_median_std": -0.865,
+          "score": -0.301,
+          "score_norm": 0.2769212381976814,
+          "unexpectedly_low_rent": true
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Upper East Side",
+          "avg_age": 8.3,
+          "avg_age_std": 0.0,
+          "avg_noise": 50.68597789825956,
+          "avg_noise_std": -0.77,
+          "color": [
+            61,
+            75,
+            137
+          ],
+          "lat": 40.7743831,
+          "lon": -73.9646405,
+          "med_floors_std": 0.5,
+          "median_floors": 5.0,
+          "num_crimes": 5787,
+          "num_crimes_std": 0.519,
+          "overall_median": 2075.0,
+          "overall_median_std": 0.218,
+          "predicted_rent": 2764.16,
+          "recent_median": 2650.0,
+          "recent_median_std": 0.215,
+          "score": -1.137,
+          "score_norm": 0.22696306920043027,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Upper West Side",
+          "avg_age": 8.16,
+          "avg_age_std": -0.137,
+          "avg_noise": 52.04693932862611,
+          "avg_noise_std": -0.277,
+          "color": [
+            60,
+            78,
+            138
+          ],
+          "lat": 40.7870455,
+          "lon": -73.9754163,
+          "med_floors_std": 0.5,
+          "median_floors": 5.0,
+          "num_crimes": 5731,
+          "num_crimes_std": 0.506,
+          "overall_median": 2295.0,
+          "overall_median_std": 0.493,
+          "predicted_rent": 2632.0,
+          "recent_median": 2995.0,
+          "recent_median_std": 0.458,
+          "score": -0.933,
+          "score_norm": 0.23915381857296522,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Washington Heights",
+          "avg_age": 7.07,
+          "avg_age_std": -1.206,
+          "avg_noise": 56.1348700953689,
+          "avg_noise_std": 1.205,
+          "color": [
+            57,
+            84,
+            139
+          ],
+          "lat": 40.8401984,
+          "lon": -73.9402214,
+          "med_floors_std": 0.5,
+          "median_floors": 5.0,
+          "num_crimes": 5171,
+          "num_crimes_std": 0.378,
+          "overall_median": 1600.0,
+          "overall_median_std": -0.375,
+          "predicted_rent": 2149.48,
+          "recent_median": 2075.0,
+          "recent_median_std": -0.188,
+          "score": -0.607,
+          "score_norm": 0.2586351141388789,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            50,
+            225,
+            25
+          ],
+          "area": "West Harlem",
+          "avg_age": 10.93,
+          "avg_age_std": 2.578,
+          "avg_noise": 54.0859365772318,
+          "avg_noise_std": 0.462,
+          "color": [
+            31,
+            146,
+            140
+          ],
+          "lat": 40.819444000000004,
+          "lon": -73.96064250286673,
+          "med_floors_std": 1.0,
+          "median_floors": 6.0,
+          "num_crimes": 1530,
+          "num_crimes_std": -0.459,
+          "overall_median": 1835.0,
+          "overall_median_std": -0.081,
+          "predicted_rent": 2950.24,
+          "recent_median": 1825.0,
+          "recent_median_std": -0.364,
+          "score": 3.608,
+          "score_norm": 0.5105175092625792,
+          "unexpectedly_low_rent": true
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "West Village",
+          "avg_age": 8.58,
+          "avg_age_std": 0.275,
+          "avg_noise": 52.586795057418854,
+          "avg_noise_std": -0.081,
+          "color": [
+            65,
+            65,
+            134
+          ],
+          "lat": 40.7341857,
+          "lon": -74.00558,
+          "med_floors_std": 0.0,
+          "median_floors": 4.0,
+          "num_crimes": 2887,
+          "num_crimes_std": -0.147,
+          "overall_median": 2800.0,
+          "overall_median_std": 1.124,
+          "predicted_rent": 2535.3,
+          "recent_median": 3773.0,
+          "recent_median_std": 1.004,
+          "score": -1.691,
+          "score_norm": 0.19385681845344807,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Williamsburg",
+          "avg_age": 8.22,
+          "avg_age_std": -0.078,
+          "avg_noise": 52.81012406744437,
+          "avg_noise_std": 0.0,
+          "color": [
+            61,
+            75,
+            137
+          ],
+          "lat": 40.714622,
+          "lon": -73.95345,
+          "med_floors_std": 0.0,
+          "median_floors": 4.0,
+          "num_crimes": 7346,
+          "num_crimes_std": 0.877,
+          "overall_median": 2650.0,
+          "overall_median_std": 0.936,
+          "predicted_rent": 2454.63,
+          "recent_median": 3658.0,
+          "recent_median_std": 0.923,
+          "score": -1.103,
+          "score_norm": 0.22899486076251943,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Windsor Terrace",
+          "avg_age": 7.38,
+          "avg_age_std": -0.902,
+          "avg_noise": 50.862870291507605,
+          "avg_noise_std": -0.706,
+          "color": [
+            71,
+            44,
+            123
+          ],
+          "lat": 40.65348695,
+          "lon": -73.97719596197135,
+          "med_floors_std": -0.5,
+          "median_floors": 3.0,
+          "num_crimes": 790,
+          "num_crimes_std": -0.629,
+          "overall_median": 1900.0,
+          "overall_median_std": 0.0,
+          "predicted_rent": 2415.82,
+          "recent_median": 1926.0,
+          "recent_median_std": -0.293,
+          "score": -2.805,
+          "score_norm": 0.1272857655073503,
+          "unexpectedly_low_rent": false
+        },
+        {
+          "anomaly_color": [
+            200,
+            200,
+            200
+          ],
+          "area": "Woodside",
+          "avg_age": 8.89,
+          "avg_age_std": 0.578,
+          "avg_noise": 56.95944078430981,
+          "avg_noise_std": 1.504,
+          "color": [
+            65,
+            65,
+            134
+          ],
+          "lat": 40.7453798,
+          "lon": -73.9054145,
+          "med_floors_std": -0.5,
+          "median_floors": 3.0,
+          "num_crimes": 4636,
+          "num_crimes_std": 0.255,
+          "overall_median": 1539.5,
+          "overall_median_std": -0.45,
+          "predicted_rent": 2087.05,
+          "recent_median": 2635.0,
+          "recent_median_std": 0.205,
+          "score": -1.721,
+          "score_norm": 0.19206406119278116,
+          "unexpectedly_low_rent": false
+        }
+      ],
+      "elevationScale": 1500,
+      "getElevation": "@@=score_norm",
+      "getFillColor": "@@=anomaly_color",
+      "getPosition": "@@=[lon, lat]",
+      "id": "39ac947b-832a-4020-8c12-45bbb941251b",
+      "pickable": true,
+      "radius": 200
+    }
+  ],
+  "mapProvider": "mapbox",
+  "mapStyle": "mapbox://styles/mapbox/dark-v9",
+  "views": [
+    {
+      "@@type": "MapView",
+      "controller": true
+    }
+  ]
+};
+    const tooltip = true;
+    const customLibraries = null;
+    const configuration = null;
+
+    const deckInstance = createDeck({
+            mapboxApiKey: 'pk.eyJ1IjoiamgyOTA0dTkwMjR0IiwiYSI6ImNtZHQ0ZWdxdTEya2EyaXBvcW5uZDZ4ajMifQ.234e5_ej-wo9lP14w6EePg',
+                  container,
+      jsonInput,
+      tooltip,
+      customLibraries,
+      configuration
+    });
+
+  </script>
+</html>
