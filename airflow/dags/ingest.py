@@ -39,7 +39,7 @@ def standardize(data):
 
 def load_rent_stats():
     df = pd.read_csv(
-        'http://host.docker.internal:8000/medianAskingRent_Studio.csv',
+        'data/medianAskingRent_Studio.csv',
         usecols=lambda col: col not in ['Borough', 'areaType']
     )
 
@@ -72,7 +72,7 @@ def load_rent_stats():
 def load_crime_data():
     engine = db_connection()
     pd.read_csv(
-        'http://host.docker.internal:8000/NYPD_Complaint_Data_Current__Year_To_Date__20250410.csv',
+        'data/NYPD_Complaint_Data_Current__Year_To_Date__20250410.csv',
         usecols=[
             'Latitude',
             'Longitude'
@@ -84,7 +84,7 @@ def load_crime_data():
 def build_area_key():
     engine = db_connection()
     df = pd.read_csv(
-            'http://host.docker.internal:8000/medianAskingRent_Studio.csv',
+            'data/medianAskingRent_Studio.csv',
             usecols=['areaName', 'areaType']
     )
     df = df[~df['areaType'].isin(['borough', 'city', 'submarket'])]
@@ -146,7 +146,7 @@ def anomalies():
 def load_construction():
     engine = db_connection()
     df = pd.read_csv(
-        'http://host.docker.internal:8000/HousingDB_post2010.csv',
+        'data/HousingDB_post2010.csv',
                         low_memory=False, usecols=['FloorsProp', 'CompltYear', 'Latitude', 'Longitude']
                      ).to_sql('construction', engine, if_exists='replace', index=False)
     engine.dispose()
@@ -343,8 +343,8 @@ with DAG(
             "-te_srs EPSG:4326 "
             "-overwrite "
             "-co COMPRESS=DEFLATE "
-            "http://host.docker.internal:8000/NY_rail_road_and_aviation_noise_2020.tif "
-            "/tmp/NY_noise_clipped.tif"
+            "data/NY_rail_road_and_aviation_noise_2020.tif "
+            "data/tmp/NY_noise_clipped.tif"
         )
     )
 
@@ -352,7 +352,7 @@ with DAG(
         task_id='load_raster',
         bash_command=(
             f"raster2pgsql -s 5070 -I -C -M -t 100x100 "
-            f"/tmp/NY_noise_clipped.tif "
+            f"data/tmp/NY_noise_clipped.tif "
             f"public.ny_noise_raster | "
             f"PGPASSWORD={PGPASSWORD} psql -h {PGHOST} -p {PGPORT} -U {PGUSER} -d {PGDATABASE}"
         ),
