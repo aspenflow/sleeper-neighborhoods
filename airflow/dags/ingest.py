@@ -9,12 +9,29 @@ import pandas as pd
 from geopy.distance import geodesic
 import requests
 import statsmodels.api as sm
+from airflow.operators.empty import EmptyOperator
+from airflow.operators.python import BranchPythonOperator
+from sqlalchemy import create_engine, text
+from airflow.utils.trigger_rule import TriggerRule
+
 
 def db_connection():
     c = BaseHook.get_connection('housing')
     url = f'postgresql://{c.login}:{c.password}@{c.host}:{c.port}/{c.schema}'
     engine = create_engine(url)
     return engine
+
+
+def _area_coords_exists() -> bool:
+    engine = db_connection()
+    try:
+        with engine.connect() as conn:
+            return conn.execute(text("SELECT to_regclass('public.area_coordinates') IS NOT NULL")).scalar()
+    finally:
+        engine.dispose()
+
+def _decide_build_area_key():
+    return 'skip_build_area_key' if _area_coords_exists() else 'build_area_key'
 
 def get_coordinates_for(borough):
     url = "https://nominatim.openstreetmap.org/search"
@@ -166,38 +183,6 @@ def load():
         con=engine
     )
 
-    X = sm.add_constant(df[['num_crimes', 'avg_noise', 'avg_age']])
-    y = df['recent_median']
-
-    # Fit the regression model
-    model = sm.OLS(y, X).fit()
-
-    # Predict rent using the model
-    df['predicted_rent'] = model.predict(X)
-
-    # Compute residuals: actual - predicted
-    df['residual'] = df['recent_median'] - df['predicted_rent']
-
-    # flag large negative residuals (e.g., below -1.5 standard deviations)
-    threshold = df['residual'].mean() - 1.25 * df['residual'].std()
-    df['unexpectedly_low_rent'] = df['residual'] < threshold
-    df[['area', 'unexpectedly_low_rent', 'predicted_rent']].to_sql('anomalies', engine, if_exists='replace', index=False)
-    print(model.summary())
-
-    # Compute residuals: actual - predicted
-    df['residual'] = df['recent_median'] - df['predicted_rent']
-
-    # Optional: flag large negative residuals (e.g., below -1.5 standard deviations)
-    threshold = df['residual'].mean() - 1.25 * df['residual'].std()
-    df['unexpectedly_low_rent'] = df['residual'] < threshold
-
-    # Sort to see anomalies
-    anomalies = df[df['unexpectedly_low_rent']].sort_values('residual')
-
-    # Show anomalies
-    print(anomalies[['num_crimes', 'avg_noise', 'recent_median', 'predicted_rent', 'residual', 'area']])
-
-    df = pd.read_sql('SELECT * FROM neighborhood_stats', con=engine)
     # Normalize scores between 0–1
     df['score_norm'] = (df['score'] - df['score'].min()) / (df['score'].max() - df['score'].min())
     df['avg_noise'] = df['avg_noise'].round(1)
@@ -306,10 +291,10 @@ with DAG(
         """
     )
 
-    # build_area_key_task = PythonOperator(
-    #     task_id='build_area_key',
-    #     python_callable=build_area_key
-    # )
+    build_area_key_task = PythonOperator(
+        task_id='build_area_key',
+        python_callable=build_area_key
+    )
 
     compute_crime_aggregates_task = SQLExecuteQueryOperator(
         task_id='compute_crime_aggregates',
@@ -499,6 +484,8 @@ with DAG(
         """
     )
 
+    add_area_spatial_index_task.trigger_rule = TriggerRule.NONE_FAILED_MIN_ONE_SUCCESS
+
     classify_noise_area_task = SQLExecuteQueryOperator(
         task_id='classify_noise_area',
         conn_id='housing',
@@ -645,17 +632,22 @@ with DAG(
         python_callable=load
     )
 
+    branch_area_table = BranchPythonOperator(
+        task_id='branch_area_table',
+        python_callable=_decide_build_area_key
+    )
+
+    skip_build_area_key = EmptyOperator(task_id='skip_build_area_key')
+
     load_crime_task >> classify_crime_area_task >> compute_crime_aggregates_task
     [load_rent_task, compute_crime_aggregates_task] >> join_rent_crime_task
     load_raster_task >> assign_shell_role_task >> repair_raster_task
     classify_noise_area_task >> compute_noise_aggregates_task
     [compute_noise_aggregates_task, join_rent_crime_task] >> join_noise_stats_task
-    add_area_spatial_index_task >> classify_crime_area_task
     repair_raster_task >> add_noise_spatial_index_task >> classify_noise_area_task
 
 
     clip_tiff_task >> load_raster_task
-    # build_area_key_task >> classify_area_task
 
     join_noise_stats_task >> anomalies_task >> append_anomalies_task
     join_noise_stats_task >> standardize_task >> append_std_cols_task >> score_task >> garbage_collection_task >> build_map_task
@@ -664,3 +656,7 @@ with DAG(
     load_construction_task >> classify_construction_task >> construction_aggregates_task >> join_rent_crime_task >> join_construction_task
 
     join_construction_task >> [anomalies_task, standardize_task]
+
+    branch_area_table >> [build_area_key_task, skip_build_area_key]
+    [build_area_key_task, skip_build_area_key] >> add_area_spatial_index_task
+    add_area_spatial_index_task >> [classify_noise_area_task, classify_construction_task, classify_crime_area_task]
