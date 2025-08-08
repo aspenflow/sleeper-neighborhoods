@@ -1,10 +1,10 @@
-from airflow.models import DAG, Variable
+from airflow.models import DAG
 from airflow.hooks.base import BaseHook
 from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
 from airflow.providers.common.sql.operators.sql import SQLExecuteQueryOperator
 from sqlalchemy import create_engine
-from datetime import datetime, timedelta
+from datetime import datetime
 import pandas as pd
 from geopy.distance import geodesic
 import requests
@@ -39,7 +39,7 @@ def standardize(data):
 
 def load_rent_stats():
     df = pd.read_csv(
-        'data/medianAskingRent_Studio.csv',
+        '/opt/airflow/data/medianAskingRent_Studio.csv',
         usecols=lambda col: col not in ['Borough', 'areaType']
     )
 
@@ -72,7 +72,7 @@ def load_rent_stats():
 def load_crime_data():
     engine = db_connection()
     pd.read_csv(
-        'data/NYPD_Complaint_Data_Current__Year_To_Date__20250410.csv',
+        '/opt/airflow/data/NYPD_Complaint_Data_Current__Year_To_Date__20250410.csv',
         usecols=[
             'Latitude',
             'Longitude'
@@ -84,7 +84,7 @@ def load_crime_data():
 def build_area_key():
     engine = db_connection()
     df = pd.read_csv(
-            'data/medianAskingRent_Studio.csv',
+            '/opt/airflow/data/medianAskingRent_Studio.csv',
             usecols=['areaName', 'areaType']
     )
     df = df[~df['areaType'].isin(['borough', 'city', 'submarket'])]
@@ -146,10 +146,108 @@ def anomalies():
 def load_construction():
     engine = db_connection()
     df = pd.read_csv(
-        'data/HousingDB_post2010.csv',
+        '/opt/airflow/data/HousingDB_post2010.csv',
                         low_memory=False, usecols=['FloorsProp', 'CompltYear', 'Latitude', 'Longitude']
                      ).to_sql('construction', engine, if_exists='replace', index=False)
     engine.dispose()
+
+
+def load():
+    import statsmodels.api as sm
+    import pydeck as pdk
+    import matplotlib.pyplot as plt
+
+    engine = db_connection()
+    df = pd.read_sql(
+        """
+        SELECT  *
+        FROM    neighborhood_stats
+        """,
+        con=engine
+    )
+
+    X = sm.add_constant(df[['num_crimes', 'avg_noise', 'avg_age']])
+    y = df['recent_median']
+
+    # Fit the regression model
+    model = sm.OLS(y, X).fit()
+
+    # Predict rent using the model
+    df['predicted_rent'] = model.predict(X)
+
+    # Compute residuals: actual - predicted
+    df['residual'] = df['recent_median'] - df['predicted_rent']
+
+    # flag large negative residuals (e.g., below -1.5 standard deviations)
+    threshold = df['residual'].mean() - 1.25 * df['residual'].std()
+    df['unexpectedly_low_rent'] = df['residual'] < threshold
+    df[['area', 'unexpectedly_low_rent', 'predicted_rent']].to_sql('anomalies', engine, if_exists='replace', index=False)
+    print(model.summary())
+
+    # Compute residuals: actual - predicted
+    df['residual'] = df['recent_median'] - df['predicted_rent']
+
+    # Optional: flag large negative residuals (e.g., below -1.5 standard deviations)
+    threshold = df['residual'].mean() - 1.25 * df['residual'].std()
+    df['unexpectedly_low_rent'] = df['residual'] < threshold
+
+    # Sort to see anomalies
+    anomalies = df[df['unexpectedly_low_rent']].sort_values('residual')
+
+    # Show anomalies
+    print(anomalies[['num_crimes', 'avg_noise', 'recent_median', 'predicted_rent', 'residual', 'area']])
+
+    df = pd.read_sql('SELECT * FROM neighborhood_stats', con=engine)
+    # Normalize scores between 0–1
+    df['score_norm'] = (df['score'] - df['score'].min()) / (df['score'].max() - df['score'].min())
+    df['avg_noise'] = df['avg_noise'].round(1)
+    df['score_norm'] = df['score_norm'].round(2)
+
+    # Use a matplotlib colormap to get RGB
+    cmap = plt.get_cmap("viridis")  # or 'plasma', 'inferno', 'magma'
+    df['color'] = df['score_norm'].apply(lambda x: [int(255 * c) for c in cmap(x)[:3]])
+
+    df['anomaly_color'] = df['unexpectedly_low_rent'].apply(
+        lambda x: [50, 225, 25] if x else [200, 200, 200]
+    )
+
+    layer = pdk.Layer(
+        "ColumnLayer",
+        data=df,
+        get_position='[lon, lat]',
+        get_elevation='score_norm',
+        elevation_scale=1500,
+        radius=200,
+        get_fill_color='anomaly_color',
+        pickable=True,
+        auto_highlight=True
+    )
+
+    view_state = pdk.ViewState(
+        latitude=df['lat'].mean(),
+        longitude=df['lon'].mean(),
+        zoom=10,
+        pitch=45
+    )
+
+    # Uses restricted API key
+    r = pdk.Deck(layers=[layer],
+                 initial_view_state=view_state,
+                 api_keys={
+                     'mapbox': 'pk.eyJ1IjoiamgyOTA0dTkwMjR0IiwiYSI6ImNtZHQ0ZWdxdTEya2EyaXBvcW5uZDZ4ajMifQ.234e5_ej-wo9lP14w6EePg'},
+                 map_provider='mapbox',
+                 tooltip={
+                     "html": "<div><b>Neighborhood:</b> <span>{area}</span><br/>"
+                             "<b>Expected Rent ($):</b> <span>{predicted_rent}</span><br/>"
+                             "<b>Actual Rent ($):</b> <span>{recent_median}</span><br/>"
+                             "<b>Crime Count:</b> <span>{num_crimes}</span><br/>"
+                             "<b>Noise Level (dB):</b> <span>{avg_noise}</span><br/>"
+                             "<b>Building Floors:</b> <span>{median_floors}</span><br/>"
+                             "<b>Building Age:</b> <span>{avg_age}</span><br/>"
+                             "<b>Score (Norm):</b> <span>{score_norm}</span></div>"
+                 }
+                 )
+    r.to_html('/opt/airflow/output/index.html', notebook_display=False, open_browser=False)
 
 
 with DAG(
@@ -343,8 +441,8 @@ with DAG(
             "-te_srs EPSG:4326 "
             "-overwrite "
             "-co COMPRESS=DEFLATE "
-            "data/NY_rail_road_and_aviation_noise_2020.tif "
-            "data/tmp/NY_noise_clipped.tif"
+            "/opt/airflow/data/NY_rail_road_and_aviation_noise_2020.tif "
+            "/opt/airflow/data/tmp/NY_noise_clipped.tif"
         )
     )
 
@@ -352,7 +450,7 @@ with DAG(
         task_id='load_raster',
         bash_command=(
             f"raster2pgsql -s 5070 -I -C -M -t 100x100 "
-            f"data/tmp/NY_noise_clipped.tif "
+            f"/opt/airflow/data/tmp/NY_noise_clipped.tif "
             f"public.ny_noise_raster | "
             f"PGPASSWORD={PGPASSWORD} psql -h {PGHOST} -p {PGPORT} -U {PGUSER} -d {PGDATABASE}"
         ),
@@ -508,14 +606,14 @@ with DAG(
         ADD COLUMN IF NOT EXISTS score NUMERIC(10,3);
         
         WITH vars AS (
-            SELECT  1 AS w_crime, 1 AS w_noise, 5 AS w_rent, 1 AS w_age, 1 AS w_floors
+            SELECT  1 AS w_crime, 1 AS w_noise, 1 AS w_rent, 1 AS w_age, 1 AS w_floors
         )
         UPDATE neighborhood_stats
         SET
             score = w_crime*num_crimes_std +
                     w_noise*avg_noise_std +
                     w_rent*(overall_median - recent_median)/overall_median +
-                    w_age*avg_age_std +
+                    w_age*avg_age_std -
                     w_floors*med_floors_std
         FROM vars;
         """
@@ -542,6 +640,11 @@ with DAG(
         """
     )
 
+    build_map_task = PythonOperator(
+        task_id='build_map',
+        python_callable=load
+    )
+
     load_crime_task >> classify_crime_area_task >> compute_crime_aggregates_task
     [load_rent_task, compute_crime_aggregates_task] >> join_rent_crime_task
     load_raster_task >> assign_shell_role_task >> repair_raster_task
@@ -555,7 +658,7 @@ with DAG(
     # build_area_key_task >> classify_area_task
 
     join_noise_stats_task >> anomalies_task >> append_anomalies_task
-    join_noise_stats_task >> standardize_task >> append_std_cols_task >> score_task >> garbage_collection_task
+    join_noise_stats_task >> standardize_task >> append_std_cols_task >> score_task >> garbage_collection_task >> build_map_task
 
     load_crime_task >> load_construction_task
     load_construction_task >> classify_construction_task >> construction_aggregates_task >> join_rent_crime_task >> join_construction_task

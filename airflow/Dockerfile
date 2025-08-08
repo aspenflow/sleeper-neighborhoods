@@ -4,4 +4,4 @@ USER root
 RUN apt-get update && apt-get install -y postgis gdal-bin && apt-get clean
 
 USER airflow
-RUN pip install statsmodels
+RUN pip install statsmodels pydeck geopy matplotlib pandas
