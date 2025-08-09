@@ -201,7 +201,7 @@ def load():
         data=df,
         get_position='[lon, lat]',
         get_elevation='score_norm',
-        elevation_scale=1500,
+        elevation_scale=1200,
         radius=200,
         get_fill_color='anomaly_color',
         pickable=True,
