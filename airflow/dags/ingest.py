@@ -593,13 +593,13 @@ with DAG(
         ADD COLUMN IF NOT EXISTS score NUMERIC(10,3);
         
         WITH vars AS (
-            SELECT  3 AS w_crime, 3 AS w_noise, 1 AS w_rent, 1 AS w_age, 1 AS w_floors
+            SELECT  1 AS w_crime, 3 AS w_noise, 1 AS w_rent, 1 AS w_age, 1 AS w_floors
         )
         UPDATE neighborhood_stats
         SET
             score = w_crime*num_crimes_std +
                     w_noise*avg_noise_std +
-                    w_rent*(overall_median_std - recent_median_std)/overall_median_std +
+                    w_rent*(overall_median - recent_median)/overall_median +
                     w_age*avg_age_std
         FROM vars;
         """
