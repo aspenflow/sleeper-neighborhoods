@@ -600,8 +600,7 @@ with DAG(
             score = w_crime*num_crimes_std +
                     w_noise*avg_noise_std +
                     w_rent*(overall_median_std - recent_median_std)/overall_median_std +
-                    w_age*avg_age_std -
-                    w_floors*med_floors_std
+                    w_age*avg_age_std
         FROM vars;
         """
     )
